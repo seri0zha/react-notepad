@@ -1,0 +1,21 @@
+.titleArea {
+    padding-bottom: 10px;
+    width: 100%;
+    border: 0;
+    resize: none;
+    font-family: inherit;
+    font-size: 24px;
+    color: #515151;
+}
+
+.editorArea {
+    padding: 10px;
+    width: calc(100% - 20px);
+    min-height: 150px;
+    resize: vertical;
+    font-family: inherit;
+    height: 100%;
+    font-size: 18px;
+    border: 1px solid #b1b1b1;
+    border-radius: 5px;
+}
