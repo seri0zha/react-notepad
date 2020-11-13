@@ -1,21 +1,27 @@
 .titleArea {
-    padding-bottom: 10px;
-    width: 100%;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px 20px 10px 20px;
     border: 0;
     resize: none;
     font-family: inherit;
-    font-size: 24px;
+    font-size: 18px;
     color: #515151;
+    border-radius: 10px;
 }
 
 .editorArea {
-    padding: 10px;
+    border: 0;
+    padding: 10px 20px 10px 20px;
     width: calc(100% - 20px);
     min-height: 150px;
     resize: vertical;
     font-family: inherit;
     height: 100%;
     font-size: 18px;
-    border: 1px solid #b1b1b1;
-    border-radius: 5px;
+    border-radius: 10px;
+}
+
+.editorArea:focus, .titleArea:focus {
+    outline: none;
 }

@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <NavLink to="/">
-        Notepad
+        <span className={styles["header-span"]}>Notepad</span>
       </NavLink>
     </div>
   );

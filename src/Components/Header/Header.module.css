@@ -1,13 +1,17 @@
 .header {
     grid-area: header;
-    border-bottom: 1px solid #e9e9e9;
-    padding-top: 16px;
-    font-size: 24px;
+    padding-left: calc(20vw + 20px);
+    background-color: #55688a;
+    margin-bottom: 10px;
 }
 .header a {
     text-decoration: none;
-    color: #515151;
+    color: #e2e2e2;
 }
 .header a:hover {
-    color: black;
+    color: white;
+}
+.header-span {
+    font-size: 24px;
+    line-height: 50px;
 }

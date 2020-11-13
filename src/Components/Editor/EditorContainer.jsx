@@ -1,7 +1,12 @@
 import React from "react";
 import Editor from "./Editor";
 import {connect} from "react-redux";
-import {editNote, editTitle} from "../../redux/editorReducer";
+import {editText, editTitle} from "../../redux/editorReducer";
+
+let actionCreators = {
+  editText,
+  editTitle,
+};
 
 let noteExists = (notesList, id) => {
   return notesList.some(note => note.id === id);
@@ -24,15 +29,4 @@ let mapStateToProps = (state, ownProps) => {
   }
 };
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    editText: (id, newText) => {
-      dispatch(editNote(id, newText));
-    },
-    editTitle: (id, newTitle) => {
-      dispatch(editTitle(id, newTitle));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Editor);
+export default connect(mapStateToProps, actionCreators)(Editor);

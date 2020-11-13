@@ -7,16 +7,11 @@ const DELETE_NOTE = "DELETE_NOTE";
 
 let initialState = {
   notes: [
-    /*{
-      id: "1",
-      title: "Note 1",
+    {
+      id: createId(),
+      title: "New note",
       text: "Some text",
     },
-    {
-      id: "2",
-      title: "Note 2",
-      text: "Some text",
-    },*/
   ]
 };
 
@@ -62,7 +57,7 @@ const editorReducer = (state = initialState, action) => {
 };
 
 export const createNote = () => ({type: CREATE_NOTE});
-export const editNote = (noteId, newText) => ({type: EDIT_TEXT, id: noteId, text: newText});
+export const editText = (noteId, newText) => ({type: EDIT_TEXT, id: noteId, text: newText});
 export const deleteNote = (noteId) => ({type: DELETE_NOTE, id: noteId});
 export const editTitle = (noteId, newTitle) => ({type: EDIT_TITLE, id: noteId, title: newTitle});
 export default editorReducer;
