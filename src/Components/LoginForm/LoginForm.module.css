@@ -1,0 +1,24 @@
+.header {
+    grid-area: header;
+    padding-left: calc(20vw + 20px);
+    background-color: #55688a;
+    margin-bottom: 10px;
+}
+.header a {
+    text-decoration: none;
+    color: #e2e2e2;
+}
+.header a:hover {
+    color: white;
+}
+.header-title {
+    display: inline-block;
+    font-size: 24px;
+    line-height: 50px;
+}
+
+.header-login {
+    display: inline-block;
+    float: right;
+    padding-right: calc(20vw + 20px);
+}
