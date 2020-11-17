@@ -11,9 +11,6 @@ const MainContent = (props) => {
         <EditorContainer {...routeProps}/>}/>
       <Route exact path='/' render={() =>
         <NotFound />}/>
-      <button onClick={props.addNote} className={styles["addNote-button"]}>
-        Create a new note
-      </button>
     </div>
   )
 };

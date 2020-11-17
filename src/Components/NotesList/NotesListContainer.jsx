@@ -1,5 +1,6 @@
 import {connect} from "react-redux";
 import NotesList from "./NotesList";
+import {createNote} from "../../redux/editorReducer";
 
 let mapStateToProps = (state) => {
   return {
@@ -7,5 +8,4 @@ let mapStateToProps = (state) => {
   };
 };
 
-
-export default connect(mapStateToProps, null)(NotesList);
+export default connect(mapStateToProps, {createNote})(NotesList);

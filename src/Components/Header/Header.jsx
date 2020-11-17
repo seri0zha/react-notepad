@@ -5,9 +5,16 @@ import {NavLink} from "react-router-dom";
 const Header = () => {
   return (
     <div className={styles.header}>
-      <NavLink to="/">
-        <span className={styles["header-span"]}>Notepad</span>
-      </NavLink>
+      <div className={styles["header-title"]}>
+        <NavLink to="/">
+          NotePad
+        </NavLink>
+      </div>
+      <div className={styles["header-login"]}>
+        <button>
+          Login
+        </button>
+      </div>
     </div>
   );
 };

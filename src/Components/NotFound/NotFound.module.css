@@ -1,0 +1,6 @@
+.not-selected {
+    height: 100%;
+    background-color: white;
+    border-radius: 15px;
+    text-align: center;
+}

@@ -11,7 +11,14 @@
 .header a:hover {
     color: white;
 }
-.header-span {
+.header-title {
+    display: inline-block;
     font-size: 24px;
     line-height: 50px;
+}
+
+.header-login {
+    display: inline-block;
+    float: right;
+    padding-right: calc(20vw + 20px);
 }

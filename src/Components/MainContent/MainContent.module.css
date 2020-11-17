@@ -2,18 +2,3 @@
     padding-left: 10px;
     grid-area: main;
 }
-.addNote-button {
-    padding: 10px;
-    color: black;
-    background-color: #ebebeb;
-    border: 0;
-    border-radius: 10px;
-    font-size: 16px;
-}
-.addNote-button:hover {
-    background-color: #cccccc;
-    cursor: pointer;
-}
-.addNote-button:focus {
-    outline: none;
-}
