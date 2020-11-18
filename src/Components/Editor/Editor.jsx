@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Editor.module.css";
 import {Redirect} from "react-router";
-
 const Editor = (props) => {
   let id = props.noteId;
   let onTextChange = (e) => {

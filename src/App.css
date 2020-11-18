@@ -8,15 +8,13 @@
     grid-template-rows: 60px 1fr;
     grid-template-columns: 20vw 240px 1fr 20vw;
     grid-template-areas: "header header header header"
-                         ". notes main .";
+                         ". main main .";
     font-size: 18px;
-}
-
-body {
-    margin: 0 auto;
-    padding-bottom: 50px;
-    background-color: #ebebeb;
 }
 *, button {
     font-family: 'Nanum Gothic', sans-serif;
+}
+
+body {
+    background-color: #ebebeb;
 }

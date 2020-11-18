@@ -1,24 +1,33 @@
 .notesList {
-    grid-area: notes;
+    grid-area: main;
     padding: 10px 20px 0 20px;
     background-color: white;
     border-radius: 16px;
     min-height: 500px;
+
+    -webkit-box-shadow: 0px 10px 38px -27px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 10px 38px -27px rgba(0,0,0,0.75);
+    box-shadow: 0px 10px 38px -27px rgba(0,0,0,0.75);
 }
 .addNote-button {
-    padding: 5px 10px;
-    color: black;
-    background-color: #ebebeb;
+    width: 46px;
+    height: 46px;
+    color: white;
+    background-color: #4c7ed8;
     border: 0;
-    border-radius: 10px;
-    font-size: 24px;
-    margin: 0 auto;
+    border-radius: 50%;
+    font-size: 36px;
+    font-weight: bold;
     display: block;
 }
 .addNote-button:hover {
-    background-color: #cccccc;
+    background-color: #4a6cc4;
     cursor: pointer;
 }
 .addNote-button:focus {
     outline: none;
+}
+
+.notesList-yourNotes {
+    margin: 10px 0;
 }

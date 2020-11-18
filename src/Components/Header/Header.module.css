@@ -1,7 +1,7 @@
 .header {
     grid-area: header;
     padding-left: calc(20vw + 20px);
-    background-color: #55688a;
+    background-color: #4c7ed8;
     margin-bottom: 10px;
 }
 .header a {

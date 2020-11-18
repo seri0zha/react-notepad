@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./Header.module.css";
 import {NavLink} from "react-router-dom";
+import firebaseApp from "../../fire";
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div className={styles.header}>
       <div className={styles["header-title"]}>
@@ -11,9 +12,11 @@ const Header = () => {
         </NavLink>
       </div>
       <div className={styles["header-login"]}>
-        <button>
-          Login
-        </button>
+        <NavLink to="/login">
+          <button onClick={() => props.logOut()}>
+            Logout
+          </button>
+        </NavLink>
       </div>
     </div>
   );
