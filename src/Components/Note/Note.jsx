@@ -4,7 +4,7 @@ import styles from "./Note.module.css";
 
 const Note = (props) => {
   return (
-    <NavLink className={styles.link} to={"/note/" + props.noteProps.id}>
+    <NavLink className={styles.link} to={"/note/" + props.id}>
       <div className={styles.note}>
         {props.noteProps.title}
       </div>

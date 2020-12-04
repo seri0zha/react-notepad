@@ -10,7 +10,6 @@ const firebaseApp = firebase.initializeApp ({
   appId: "1:258057213621:web:77c67d9e70b839b90750fc"
 });
 
-export default firebaseApp;
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 firebase.auth().languageCode = 'en';
@@ -21,3 +20,5 @@ export const authWithGoogle = () => {
 export const authWithEmailAndPassword = (email, password) => {
   return firebase.auth().signInWithEmailAndPassword(email, password);
 }
+
+export default firebaseApp;

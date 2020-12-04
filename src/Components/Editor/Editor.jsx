@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Editor.module.css";
 import {Redirect} from "react-router";
 const Editor = (props) => {
+
   let id = props.noteId;
   let onTextChange = (e) => {
     let newText = e.currentTarget.value;
@@ -13,7 +14,7 @@ const Editor = (props) => {
     props.editTitle(id, newTitle);
   };
 
-  let titleProps = {
+  let titleConfig = {
     type: 'text',
     placeHolder: 'Title',
     className: styles.titleArea,
@@ -21,7 +22,7 @@ const Editor = (props) => {
     maxLength: '60',
   };
 
-  let textareaProps = {
+  let textConfig = {
     type: 'text',
     placeHolder: 'Write something...',
     className: styles.editorArea,
@@ -31,10 +32,10 @@ const Editor = (props) => {
   return props.noteExists ? (
     <div className={styles.noteEditor}>
       <input
-        {...titleProps}
+        {...titleConfig}
         onChange={onTitleChange}/>
       <textarea
-        {...textareaProps}
+        {...textConfig}
         onChange={onTextChange}/>
     </div>
   ) : (

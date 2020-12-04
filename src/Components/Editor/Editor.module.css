@@ -1,3 +1,7 @@
+.noteEditor {
+    grid-area: main;
+}
+
 .titleArea {
     width: calc(100% - 20px);
     margin-bottom: 10px;

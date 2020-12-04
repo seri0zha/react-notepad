@@ -1,14 +1,16 @@
 import MainContent from "./MainContent";
 import {connect} from "react-redux";
-import {createNote, editNote, editTitle} from "../../redux/editorReducer";
+import {createNote, logOut} from "../../redux/editorReducer";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import {compose} from "redux";
 
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    addNote: () => {
-      dispatch(createNote());
-    },
-  };
-};
+let mapDispatchToProps = {
+  addNote: createNote,
+  logOut,
+}
 
-export default connect(null, mapDispatchToProps)(MainContent);
+export default compose(
+  connect(null, mapDispatchToProps),
+  withAuthRedirect
+)(MainContent);

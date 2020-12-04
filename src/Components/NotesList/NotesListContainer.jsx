@@ -7,7 +7,6 @@ let mapStateToProps = (state) => {
     notesList: state.editor.notes,
     userID: state.editor.userID,
     userInfoIsFetching: state.editor.userInfoIsFetching,
-    //notesListIsFetching: state.editor.notesListIsFetching,
   };
 };
 

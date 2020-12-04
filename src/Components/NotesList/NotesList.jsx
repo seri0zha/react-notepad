@@ -1,12 +1,11 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styles from "./NotesList.module.css";
 import Note from "../Note/Note";
-import {Redirect} from "react-router";
-
 
 const NotesList = (props) => {
+  let noteIDs = Object.keys(props.notesList);
+  let notesElements = noteIDs.map(el => <Note key={el} id={el} noteProps={props.notesList[el]}/>);
 
-  let notesElements = props.notesList.map((el) => <Note noteProps={el}/>);
   return (
     <div className={styles.notesList}>
       <div className={styles["notesList-yourNotes"]}>Your notes</div>

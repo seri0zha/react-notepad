@@ -2,3 +2,12 @@
     padding-left: 10px;
     grid-area: main;
 }
+
+.mainContent-wrapper {
+    display: grid;
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 20vw 240px 1fr 20vw;
+    grid-template-areas: "header header header header"
+    ". main main .";
+    font-size: 18px;
+}

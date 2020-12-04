@@ -9,16 +9,15 @@ let actionCreators = {
 };
 
 let noteExists = (notesList, id) => {
-  return notesList.some(note => note.id === id);
+  return (id in notesList);
 }
 
 let mapStateToProps = (state, ownProps) => {
   let id = ownProps.match.params.noteId;
   if (noteExists(state.editor.notes, id)) {
-    let index = state.editor.notes.findIndex(note => note.id === id);
     return {
-      noteText: state.editor.notes[index].text,
-      noteTitle: state.editor.notes[index].title,
+      noteText: state.editor.notes[id].text,
+      noteTitle: state.editor.notes[id].title,
       noteId: id,
       noteExists: true,
     };

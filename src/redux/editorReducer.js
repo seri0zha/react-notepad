@@ -18,45 +18,27 @@ let initialState = {
   errorCode: null,
   errorMessage: null,
   isLoggedIn: false,
-  notes: [
-    {
-      id: createId(),
-      title: "New note",
-      text: "Some text",
-    },
-  ],
+  notes: {}
 };
 
 const editorReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_NOTE: {
-      let newNote = {
-        id: createId(),
-        title: "New note",
-        text: "",
-      }
+      let newNote = {};
+      newNote[createId()] = {title: "New note", text: "Hello world!"};
       return {
         ...state,
-        notes: [...state.notes, newNote],
+        notes: {...state.notes, ...newNote},
       }
     }
     case EDIT_TITLE: {
-      let newState = {
-        ...state,
-        notes: [...state.notes]
-      };
-      let index = newState.notes.findIndex(note => note.id === action.id);
-      newState.notes[index].title = action.title;
+      let newState = JSON.parse(JSON.stringify(state));
+      newState.notes[action.id].title = action.title;
       return newState;
     }
-
     case EDIT_TEXT: {
-      let newState = {
-        ...state,
-        notes: [...state.notes]
-      };
-      let index = newState.notes.findIndex(note => note.id === action.id);
-      newState.notes[index].text = action.text;
+      let newState = JSON.parse(JSON.stringify(state));
+      newState.notes[action.id].text = action.text;
       return newState;
     }
     case TOGGLE_LOGGED_IN: {
@@ -89,7 +71,11 @@ const editorReducer = (state = initialState, action) => {
         ...state,
         notesListIsFetching: action.isFetching,
       }
-
+    case DELETE_NOTE: {
+      let newState = JSON.parse(JSON.stringify(state));
+      delete newState.notes[action.id];
+      return newState;
+    }
     default:
       return {...state};
   }
@@ -135,13 +121,6 @@ export const logOut = () => {
     });
   };
 };
-
-
-export const userAuthStateObserver = (user) => {
-  return dispatch => {
-
-  }
-}
 /*export const getNotes = (userId) => {
   return dispatch => {
     toggleNotesListIsFetching(true);

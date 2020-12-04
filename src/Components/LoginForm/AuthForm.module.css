@@ -1,4 +1,8 @@
-.login-form {
+.loginForm-wrapper {
+    width: 100%;
+}
+
+.loginForm {
     border-radius: 20px;
     color: white;
     margin: 200px auto;
@@ -7,7 +11,6 @@
     height: 500px;
     text-align: center;
     padding-top: 20px;
-
 
     -webkit-box-shadow: 0px 10px 35px -8px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 10px 35px -8px rgba(0,0,0,0.75);

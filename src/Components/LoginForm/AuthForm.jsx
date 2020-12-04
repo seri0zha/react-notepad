@@ -1,42 +1,56 @@
-import React, {useEffect, useState} from "react";
-import Header from "../Header/Header";
-import NotesListContainer from "../NotesList/NotesListContainer";
-import MainContentContainer from "../MainContent/MainContentContainer";
-import firebaseApp from "../../fire";
-import {Redirect, Route} from "react-router";
-import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
+import styles from "./AuthForm.module.css";
+import React, {useState} from "react";
+import {NavLink} from "react-router-dom";
+import {Redirect} from "react-router";
 
-const AuthForm = (props) => {
-  useEffect(() => {
-    firebaseApp.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        props.toggleLoggedIn(true);
-      } else {
-        props.toggleLoggedIn(false);
-      }
-    });
-  },[]);
-  return (
-    props.isLoggedIn ?
-    <div className='app-wrapper'>
-      <Header logOut={props.logOut}/>
-      <MainContentContainer />
+let AuthForm = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  let handleSubmit = (e) => {
+    e.preventDefault();
+    props.trySignIn(email, password);
+  };
+
+  let handleEmailChange = (e) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  };
+
+  let handlePasswordChange = (e) => {
+    e.preventDefault();
+    setPassword(e.target.value);
+  };
+
+  return !props.isLoggedIn ?
+    <div className={styles["loginForm-wrapper"]}>
+      <div className={styles["loginForm"]}>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div className={styles["input-wrapper"]}>
+            <input className={styles["input-field"]}
+                   placeholder="Email"
+                   onChange={handleEmailChange}
+                   value={email}/>
+          </div>
+          <div className={styles["input-wrapper"]}>
+            <input className={styles["input-field"]}
+                   placeholder="Password"
+                   type="password"
+                   onChange={handlePasswordChange}
+                   value={password}/>
+          </div>
+          <input type="submit" value="Login"/>
+        </form>
+        <button onClick={() => props.trySignIn()}>
+          Sign in with Google
+        </button>
+        <NavLink to="/signup">
+          <button>
+            Sign up
+          </button>
+        </NavLink>
+      </div>
     </div> :
-    <div>
-      <Route exact path="/login" render={() =>
-        <LoginForm {...props}/>
-      }/>
-      <Route exact path="/signup" render={() =>
-        <SignUpForm/>
-      }/>
-      <Route path="/">
-        <Redirect to="/login"/>
-      </Route>
-    </div>
-
-
-  );
+    <Redirect to="/"/>;
 };
 
 export default AuthForm;
