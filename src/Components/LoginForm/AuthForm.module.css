@@ -3,7 +3,7 @@
 }
 
 .loginForm {
-    border-radius: 20px;
+    border-radius: 5px;
     color: white;
     margin: 200px auto;
     background-color: #4c7ed8;
@@ -18,10 +18,28 @@
 }
 
 .input-wrapper {
-    margin: 0 auto;
-    width: 100%;
+    margin: 0 10px 20px 10px;
+}
+
+.input-wrapper input {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.input-wrapper input:focus {
+    outline: none;
 }
 
 .input-field {
     width: calc(100% - 40px);
+}
+
+.loginButton {
+    all: unset;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #00c0c4;
 }

@@ -38,9 +38,9 @@ let AuthForm = (props) => {
                    onChange={handlePasswordChange}
                    value={password}/>
           </div>
-          <input type="submit" value="Login"/>
+          <input type="submit" value="Login" className={styles.loginButton}/>
         </form>
-        <button onClick={() => props.trySignIn()}>
+        <button onClick={() => props.trySignIn()} className={styles.formButton}>
           Sign in with Google
         </button>
         <NavLink to="/signup">

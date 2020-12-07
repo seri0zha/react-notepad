@@ -1,6 +1,6 @@
 .notesList {
     grid-area: main;
-    padding: 10px 20px 0 20px;
+    padding: 20px   ;
     background-color: white;
     border-radius: 16px;
     min-height: 500px;
@@ -26,8 +26,4 @@
 }
 .addNote-button:focus {
     outline: none;
-}
-
-.notesList-yourNotes {
-    margin: 10px 0;
 }

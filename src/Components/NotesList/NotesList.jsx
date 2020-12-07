@@ -8,7 +8,6 @@ const NotesList = (props) => {
 
   return (
     <div className={styles.notesList}>
-      <div className={styles["notesList-yourNotes"]}>Your notes</div>
       <button onClick={props.createNote} className={styles["addNote-button"]}>
         +
       </button>

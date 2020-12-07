@@ -1,17 +1,16 @@
 import React from "react";
 import styles from "./Editor.module.css";
 import {Redirect} from "react-router";
-const Editor = (props) => {
 
-  let id = props.noteId;
+const Editor = (props) => {
   let onTextChange = (e) => {
     let newText = e.currentTarget.value;
-    props.editText(id, newText);
+    props.editText(props.noteId, newText);
   };
 
   let onTitleChange = (e) => {
     let newTitle = e.target.value;
-    props.editTitle(id, newTitle);
+    props.editTitle(props.noteId, newTitle);
   };
 
   let titleConfig = {

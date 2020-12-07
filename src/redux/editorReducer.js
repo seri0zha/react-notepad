@@ -81,24 +81,49 @@ const editorReducer = (state = initialState, action) => {
   }
 };
 
+export const trySignInWithThirdParty = type => dispatch => {
+  toggleUserInfoIsFetching(true);
+  authWithGoogle().then(function(result) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    let token = result.credential.accessToken;
+    // The signed-in user info.
+    //var user = result.user;
+    dispatch(setUserID(token));
+    dispatch(toggleLoggedIn(true))
+    toggleUserInfoIsFetching(false);
+  }).catch(function (error) {
+    toggleUserInfoIsFetching(false);
+  })
+}
+
 export const trySignIn = (email = null, password = null) => {
   return dispatch => {
     toggleUserInfoIsFetching(true);
     if (email) {
-      authWithEmailAndPassword(email, password).catch(function (error) {
-        // Handle Errors here.
-        let errorCode = error.code;
-        let errorMessage = error.message;
-        if (errorCode === 'auth/wrong-password') {
-          alert('Wrong password.');
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
+      authWithEmailAndPassword(email, password)
+        .then(function (user) {
+          let token = user.credential.accessToken;
+          // The signed-in user info.
+          //var user = result.user;
+          dispatch(setUserID(token));
+          dispatch(toggleLoggedIn(true));
+          toggleUserInfoIsFetching(false);
+        })
+        .catch(function (error) {
+          toggleUserInfoIsFetching(false);
+          // Handle Errors here.
+          let errorCode = error.code;
+          let errorMessage = error.message;
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
       });
-      toggleUserInfoIsFetching(false);
     } else {
-      authWithGoogle().then(function(result) {
+      authWithGoogle()
+        .then(function(result) {
         // This gives you a Google Access Token. You can use it to access the Google API.
         let token = result.credential.accessToken;
         // The signed-in user info.
