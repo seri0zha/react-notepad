@@ -8,7 +8,7 @@ let AuthForm = (props) => {
   const [password, setPassword] = useState("");
   let handleSubmit = (e) => {
     e.preventDefault();
-    props.trySignIn(email, password);
+    props.trySignInWithEmail(email, password);
   };
 
   let handleEmailChange = (e) => {
@@ -40,7 +40,7 @@ let AuthForm = (props) => {
           </div>
           <input type="submit" value="Login" className={styles.loginButton}/>
         </form>
-        <button onClick={() => props.trySignIn()} className={styles.formButton}>
+        <button onClick={() => props.trySignInWithThirdParty("GOOGLE")} className={styles.formButton}>
           Sign in with Google
         </button>
         <NavLink to="/signup">

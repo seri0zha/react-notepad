@@ -10,4 +10,4 @@ let mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {createNote, /*getNotes*/})(NotesList);
+export default connect(mapStateToProps, {createNote, getNotes})(NotesList);

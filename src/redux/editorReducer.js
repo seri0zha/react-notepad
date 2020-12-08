@@ -1,5 +1,5 @@
 import {v4 as createId} from 'uuid';
-import firebaseApp, { authWithEmailAndPassword, authWithGoogle} from "../fire";
+import firebaseApp, {authWithEmailAndPassword, authWithGoogle, database} from "../fire";
 
 const EDIT_TEXT = "EDIT_TEXT";
 const EDIT_TITLE = "EDIT_TITLE";
@@ -81,62 +81,47 @@ const editorReducer = (state = initialState, action) => {
   }
 };
 
-export const trySignInWithThirdParty = type => dispatch => {
-  toggleUserInfoIsFetching(true);
-  authWithGoogle().then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    let token = result.credential.accessToken;
-    // The signed-in user info.
-    //var user = result.user;
-    dispatch(setUserID(token));
-    dispatch(toggleLoggedIn(true))
-    toggleUserInfoIsFetching(false);
-  }).catch(function (error) {
-    toggleUserInfoIsFetching(false);
-  })
+export const trySignInWithThirdParty = loginMethod => dispatch => {
+  toggleInfoIsFetching(true);
+  if (loginMethod === "GOOGLE") {
+    authWithGoogle()
+      .then(function (result) {
+        let token = result.credential.accessToken;
+        dispatch(setUserID(token));
+        dispatch(toggleLoggedIn(true))
+        toggleInfoIsFetching(false);
+      }).catch(function (error) {
+      toggleInfoIsFetching(false);
+    })
+  }
 }
 
-export const trySignIn = (email = null, password = null) => {
-  return dispatch => {
-    toggleUserInfoIsFetching(true);
-    if (email) {
-      authWithEmailAndPassword(email, password)
-        .then(function (user) {
-          let token = user.credential.accessToken;
-          // The signed-in user info.
-          //var user = result.user;
-          dispatch(setUserID(token));
-          dispatch(toggleLoggedIn(true));
-          toggleUserInfoIsFetching(false);
-        })
-        .catch(function (error) {
-          toggleUserInfoIsFetching(false);
-          // Handle Errors here.
-          let errorCode = error.code;
-          let errorMessage = error.message;
-          if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
-          } else {
-            alert(errorMessage);
-          }
-          console.log(error);
-      });
-    } else {
-      authWithGoogle()
-        .then(function(result) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        let token = result.credential.accessToken;
+export const trySignInWithEmail = (email, password) => dispatch => {
+  toggleInfoIsFetching(true);
+  if (email) {
+    authWithEmailAndPassword(email, password)
+      .then(function (user) {
+        let token = user.credential.accessToken;
         // The signed-in user info.
         //var user = result.user;
         dispatch(setUserID(token));
-        dispatch(toggleLoggedIn(true))
-        toggleUserInfoIsFetching(false);
-      }).catch(function (error) {
-
+        dispatch(toggleLoggedIn(true));
+        toggleInfoIsFetching(false);
       })
-    }
+      .catch(function (error) {
+        toggleInfoIsFetching(false);
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
   }
-};
+}
 
 export const logOut = () => {
   return dispatch => {
@@ -146,23 +131,21 @@ export const logOut = () => {
     });
   };
 };
-/*export const getNotes = (userId) => {
-  return dispatch => {
-    toggleNotesListIsFetching(true);
-    database.ref(`/users/${userId}`).once('value').then(function (snapshot) {
-      let notes = snapshot.val();
-      debugger;
-      dispatch(setNotes(notes));
-      toggleNotesListIsFetching(false);
-    })
-  }
-}*/
+
+export const getNotes = () => (dispatch, getState) => {
+  dispatch(toggleInfoIsFetching(true));
+  database.ref(`/users/${getState().editor.userID}`).once('value').then((snapshot) => {
+    let notes = snapshot.val();
+    dispatch(setNotes(notes));
+    dispatch(toggleInfoIsFetching(false));
+  });
+}
 
 export const createNote = () => ({type: CREATE_NOTE});
 export const editText = (noteId, newText) => ({type: EDIT_TEXT, id: noteId, text: newText});
 export const setNotes = (notes) => ({type: SET_NOTES, notes});
 export const setUserID = (userID) => ({type: SET_USER_ID, userID});
-export const toggleUserInfoIsFetching = (isFetching) => ({type: TOGGLE_USER_INFO_IS_FETCHING, isFetching});
+export const toggleInfoIsFetching = (isFetching) => ({type: TOGGLE_USER_INFO_IS_FETCHING, isFetching});
 export const toggleNotesListIsFetching = (isFetching) => ({type: TOGGLE_NOTES_LIST_IS_FETCHING, isFetching});
 export const deleteNote = (noteId) => ({type: DELETE_NOTE, id: noteId});
 export const editTitle = (noteId, newTitle) => ({type: EDIT_TITLE, id: noteId, title: newTitle});

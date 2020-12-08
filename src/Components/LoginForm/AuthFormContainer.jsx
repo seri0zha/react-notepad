@@ -1,6 +1,11 @@
 import React from "react";
 import AuthForm from "./AuthForm";
-import {logOut, toggleLoggedIn, trySignIn} from "../../redux/editorReducer";
+import {
+  logOut,
+  toggleLoggedIn,
+  trySignInWithEmail,
+  trySignInWithThirdParty
+} from "../../redux/editorReducer";
 import {connect} from "react-redux";
 
 let mapStateToProps = (state) => {
@@ -9,7 +14,8 @@ let mapStateToProps = (state) => {
   };
 };
 let actionCreators = {
-  trySignIn,
+  trySignInWithThirdParty,
+  trySignInWithEmail,
   logOut,
   toggleLoggedIn,
 };
