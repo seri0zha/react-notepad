@@ -6,8 +6,7 @@ const NotesList = (props) => {
 
   useEffect(() => {
     props.getNotes();
-  }, []);
-
+  },[]);
   let noteIDs = Object.keys(props.notesList);
   let notesElements = noteIDs.map(el => <Note key={el} id={el} noteProps={props.notesList[el]}/>);
   return (

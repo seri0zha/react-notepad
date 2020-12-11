@@ -1,12 +1,7 @@
 import React from "react";
 import AuthForm from "./AuthForm";
-import {
-  logOut,
-  toggleLoggedIn,
-  trySignInWithEmail,
-  trySignInWithThirdParty
-} from "../../redux/editorReducer";
 import {connect} from "react-redux";
+import {logOut, toggleLoggedIn, trySignInWithEmail, trySignInWithThirdParty} from "../../redux/authReducer";
 
 let mapStateToProps = (state) => {
   return {

@@ -3,9 +3,9 @@ import './App.css';
 import MainContentContainer from "./Components/MainContent/MainContentContainer";
 import {Route, Switch} from "react-router";
 import AuthFormContainer from "./Components/LoginForm/AuthFormContainer";
-import {setUserID, toggleLoggedIn} from "./redux/editorReducer";
 import {connect} from "react-redux";
 import firebaseApp from "./fire";
+import {setUserID, toggleLoggedIn} from "./redux/authReducer";
 
 let App = (props) => {
   useEffect(() => {

@@ -15,7 +15,7 @@ const Editor = (props) => {
 
   let titleConfig = {
     type: 'text',
-    placeHolder: 'Title',
+    placeholder: 'Title',
     className: styles.titleArea,
     value: props.noteTitle,
     maxLength: '60',
@@ -23,7 +23,7 @@ const Editor = (props) => {
 
   let textConfig = {
     type: 'text',
-    placeHolder: 'Write something...',
+    placeholder: 'Write something...',
     className: styles.editorArea,
     value: props.noteText,
     rows: '5',

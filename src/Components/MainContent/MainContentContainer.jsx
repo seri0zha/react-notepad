@@ -1,12 +1,10 @@
 import MainContent from "./MainContent";
 import {connect} from "react-redux";
-import {createNote, logOut} from "../../redux/editorReducer";
 import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
-
+import {logOut} from "../../redux/authReducer";
 
 let mapDispatchToProps = {
-  addNote: createNote,
   logOut,
 }
 
