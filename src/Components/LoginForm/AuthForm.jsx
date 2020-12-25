@@ -1,26 +1,42 @@
 import styles from "./AuthForm.module.css";
 import React, {useState} from "react";
-import {NavLink} from "react-router-dom";
 import {Redirect} from "react-router";
 
-let AuthForm = (props) => {
+const AuthForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let handleSubmit = (e) => {
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userIsSignedUp, setUserIsSignedUp] = useState(true);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    props.trySignInWithEmail(email, password);
+    if (userIsSignedUp) {
+      props.trySignInWithEmail(email, password);
+    } else {
+      if (password === confirmPassword) {
+        props.trySignUpWithEmail(email, password);
+      } else {
+        alert("Passwords don't match!");
+        setPassword("");
+        setConfirmPassword("");
+      }
+    }
   };
 
-  let handleEmailChange = (e) => {
+  const handleEmailChange = (e) => {
     e.preventDefault();
     setEmail(e.target.value);
   };
 
-  let handlePasswordChange = (e) => {
+  const handlePasswordChange = (e) => {
     e.preventDefault();
     setPassword(e.target.value);
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    e.preventDefault();
+    setConfirmPassword(e.target.value);
+  };
   return !props.isLoggedIn ?
     <div className={styles["loginForm-wrapper"]}>
       <div className={styles["loginForm"]}>
@@ -38,16 +54,21 @@ let AuthForm = (props) => {
                    onChange={handlePasswordChange}
                    value={password}/>
           </div>
-          <input type="submit" value="Login" className={styles.loginButton}/>
+          {!userIsSignedUp && <div className={styles["input-wrapper"]}>
+            <input className={styles["input-field"]}
+                   placeholder="Confirm password"
+                   type="password"
+                   onChange={handleConfirmPasswordChange}
+                   value={confirmPassword}/>
+          </div>}
+          <input type="submit" value={userIsSignedUp ? "Login" : "Sign up"} className={styles.loginButton}/>
         </form>
         <button onClick={() => props.trySignInWithThirdParty("GOOGLE")} className={styles.formButton}>
           Sign in with Google
         </button>
-        <NavLink to="/signup">
-          <button>
-            Sign up
-          </button>
-        </NavLink>
+        <button onClick={() => setUserIsSignedUp(prevState => !prevState)}>
+          {userIsSignedUp ? "Sign up" : "Login"}
+        </button>
       </div>
     </div> :
     <Redirect to="/"/>;

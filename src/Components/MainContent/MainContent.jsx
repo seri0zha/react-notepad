@@ -14,7 +14,7 @@ const MainContent = (props) => {
         <Route exact path='/note/:noteId' render={(routeProps) =>
           <EditorContainer {...routeProps}/>}/>
         <Route path='/' render={() =>
-          <NotesListContainer />}/>
+          <NotesListContainer/>}/>
       </Switch>
     </div>
   )

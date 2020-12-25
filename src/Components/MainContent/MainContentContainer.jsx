@@ -4,9 +4,9 @@ import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 import {compose} from "redux";
 import {logOut} from "../../redux/authReducer";
 
-let mapDispatchToProps = {
+const mapDispatchToProps = {
   logOut,
-}
+};
 
 export default compose(
   connect(null, mapDispatchToProps),

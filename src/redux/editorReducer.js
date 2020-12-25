@@ -10,9 +10,6 @@ const SET_NOTES = "SET_NOTES";
 
 let initialState = {
   userInfoIsFetching: false,
-  notesListIsFetching: false,
-  errorCode: null,
-  errorMessage: null,
   isLoggedIn: false,
   notes: {}
 };

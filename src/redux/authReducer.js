@@ -1,4 +1,4 @@
-import firebaseApp, {authWithEmailAndPassword, authWithGoogle, database} from "../fire";
+import firebaseApp, {authWithEmailAndPassword, authWithGoogle, database, signUpWithEmailAndPassword} from "../fire";
 import {createNote, setNotes} from "./editorReducer";
 
 const TOGGLE_LOGGED_IN = "TOGGLE_LOGGED_IN";
@@ -9,6 +9,7 @@ let initialState = {
   userID: null,
   isLoggedIn: false,
 };
+
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case TOGGLE_LOGGED_IN: {
@@ -36,9 +37,18 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export const setUserID = (userID) => ({type: SET_USER_ID, userID});
-export const toggleLoggedIn = (isLoggedIn) => ({type: TOGGLE_LOGGED_IN, isLoggedIn});
-export const toggleInfoIsFetching = (isFetching) => ({type: TOGGLE_USER_INFO_IS_FETCHING, isFetching});
+export const setUserID = userID => ({type: SET_USER_ID, userID});
+export const toggleLoggedIn = isLoggedIn => ({type: TOGGLE_LOGGED_IN, isLoggedIn});
+export const logOut = () => {
+  return dispatch => {
+    firebaseApp.auth().signOut().then(function () {
+      dispatch(toggleLoggedIn(false));
+      dispatch(setNotes({}));
+    }).catch(function (error) {
+    });
+  };
+};
+export const toggleInfoIsFetching = isFetching => ({type: TOGGLE_USER_INFO_IS_FETCHING, isFetching});
 export const trySignInWithThirdParty = loginMethod => dispatch => {
   toggleInfoIsFetching(true);
   if (loginMethod === "GOOGLE") {
@@ -47,26 +57,49 @@ export const trySignInWithThirdParty = loginMethod => dispatch => {
         let token = result.credential.accessToken;
         dispatch(setUserID(token));
         dispatch(toggleLoggedIn(true))
+      })
+      .catch(function (error) {
+        alert("error");
+      })
+      .finally(() => {
         toggleInfoIsFetching(false);
-      }).catch(function (error) {
-      toggleInfoIsFetching(false);
-    })
+      });
   }
 }
+export const trySignUpWithEmail = (email, password) => dispatch => {
+  dispatch(toggleInfoIsFetching(true));
+  signUpWithEmailAndPassword(email, password)
+    .then(result => {
+      let token = result.user.uid;
+      // The signed-in user info.
+      //var user = result.user;
+      if (result.user.emailVerified) {
+        dispatch(setUserID(token));
+        dispatch(toggleLoggedIn(true))
+      } else {
+        alert("User has not verified the email yet.")
+      }
+    })
+    .catch(error => {
+      alert("error");
+    })
+    .finally(() => {
+      dispatch(toggleInfoIsFetching(false));
+    })
+}
 export const trySignInWithEmail = (email, password) => dispatch => {
-  toggleInfoIsFetching(true);
+  dispatch(toggleInfoIsFetching(true));
   authWithEmailAndPassword(email, password)
     .then(function (result) {
-      debugger;
       let token = result.user.uid;
       // The signed-in user info.
       //var user = result.user;
       dispatch(setUserID(token));
       dispatch(toggleLoggedIn(true));
-      toggleInfoIsFetching(false);
+      dispatch(toggleInfoIsFetching(false));
     })
     .catch(function (error) {
-      toggleInfoIsFetching(false);
+      dispatch(toggleInfoIsFetching(false));
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
@@ -79,18 +112,11 @@ export const trySignInWithEmail = (email, password) => dispatch => {
       console.log(error);
     });
 }
-export const logOut = () => {
-  return dispatch => {
-    firebaseApp.auth().signOut().then(function () {
-      dispatch(toggleLoggedIn(false));
-    }).catch(function (error) {
-    });
-  };
-};
 export const getNotes = () => (dispatch, getState) => {
   dispatch(toggleInfoIsFetching(true));
   database.ref(`/users/${getState().auth.userID}`).once('value').then((snapshot) => {
     let notes = snapshot.val();
+    debugger;
     if (notes === null) {
       dispatch(createNote());
       notes = getState().editor.notes;
@@ -102,5 +128,4 @@ export const getNotes = () => (dispatch, getState) => {
     dispatch(toggleInfoIsFetching(false));
   });
 }
-
 export default authReducer;

@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import firebaseApp from "./fire";
 import {setUserID, toggleLoggedIn} from "./redux/authReducer";
 
-let App = (props) => {
+const App = (props) => {
   useEffect(() => {
     firebaseApp.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -19,6 +19,7 @@ let App = (props) => {
         console.log("logged out");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   return (
     <div className="app-wrapper">
