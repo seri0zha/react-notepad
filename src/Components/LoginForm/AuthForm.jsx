@@ -6,11 +6,11 @@ const AuthForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [userIsSignedUp, setUserIsSignedUp] = useState(true);
+  const [userIsRegistered, setUserIsRegistered] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userIsSignedUp) {
+    if (userIsRegistered) {
       props.trySignInWithEmail(email, password);
     } else {
       if (password === confirmPassword) {
@@ -54,20 +54,20 @@ const AuthForm = (props) => {
                    onChange={handlePasswordChange}
                    value={password}/>
           </div>
-          {!userIsSignedUp && <div className={styles["input-wrapper"]}>
+          {!userIsRegistered && <div className={styles["input-wrapper"]}>
             <input className={styles["input-field"]}
                    placeholder="Confirm password"
                    type="password"
                    onChange={handleConfirmPasswordChange}
                    value={confirmPassword}/>
           </div>}
-          <input type="submit" value={userIsSignedUp ? "Login" : "Sign up"} className={styles.loginButton}/>
+          <input type="submit" value={userIsRegistered ? "Login" : "Sign up"} className={styles.loginButton}/>
         </form>
         <button onClick={() => props.trySignInWithThirdParty("GOOGLE")} className={styles.formButton}>
           Sign in with Google
         </button>
-        <button onClick={() => setUserIsSignedUp(prevState => !prevState)}>
-          {userIsSignedUp ? "Sign up" : "Login"}
+        <button onClick={() => setUserIsRegistered(prevState => !prevState)}>
+          {userIsRegistered ? "Sign up" : "Login"}
         </button>
       </div>
     </div> :

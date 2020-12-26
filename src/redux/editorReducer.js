@@ -1,4 +1,6 @@
 import {v4 as createId} from 'uuid';
+import {database} from "../fire";
+import {toggleInfoIsFetching} from "./authReducer";
 
 const EDIT_TEXT = "EDIT_TEXT";
 const EDIT_TITLE = "EDIT_TITLE";
@@ -9,7 +11,6 @@ const TOGGLE_NOTES_LIST_IS_FETCHING = "TOGGLE_NOTES_LIST_IS_FETCHING";
 const SET_NOTES = "SET_NOTES";
 
 let initialState = {
-  userInfoIsFetching: false,
   isLoggedIn: false,
   notes: {}
 };
@@ -61,9 +62,34 @@ const editorReducer = (state = initialState, action) => {
   }
 };
 
-export const createNote = () => ({type: CREATE_NOTE});
+export const createNoteInLocalState = () => ({type: CREATE_NOTE});
+export const createNoteInDatabase = () => (dispatch, getState) => {
+  dispatch(toggleInfoIsFetching(true));
+  dispatch(createNoteInLocalState());
+  dispatch(syncNotes());
+  dispatch(toggleInfoIsFetching(false));
+};
+
+export const deleteNoteInLocalState = (noteId) => ({type: DELETE_NOTE, id: noteId});
+export const deleteNoteInDatabase = noteId => (dispatch, getState) => {
+  dispatch(toggleInfoIsFetching(true));
+  dispatch(deleteNoteInLocalState(noteId));
+  dispatch(syncNotes());
+  dispatch(toggleInfoIsFetching(false));
+}
+
 export const editText = (noteId, newText) => ({type: EDIT_TEXT, id: noteId, text: newText});
 export const setNotes = (notes) => ({type: SET_NOTES, notes});
-export const deleteNote = (noteId) => ({type: DELETE_NOTE, id: noteId});
 export const editTitle = (noteId, newTitle) => ({type: EDIT_TITLE, id: noteId, title: newTitle});
+
+export const syncNotes = () => (dispatch, getState) => {
+  dispatch(toggleInfoIsFetching(true));
+  database.ref(`/users/${getState().auth.userID}`).set(getState().editor.notes)
+    .finally(()=>{
+      dispatch(toggleInfoIsFetching(false));
+    });
+};
+
+
 export default editorReducer;
+

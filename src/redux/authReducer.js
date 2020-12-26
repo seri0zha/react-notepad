@@ -1,11 +1,15 @@
 import firebaseApp, {authWithEmailAndPassword, authWithGoogle, database, signUpWithEmailAndPassword} from "../fire";
-import {createNote, setNotes} from "./editorReducer";
+import {setNotes} from "./editorReducer";
 
 const TOGGLE_LOGGED_IN = "TOGGLE_LOGGED_IN";
 const TOGGLE_USER_INFO_IS_FETCHING = "TOGGLE_USER_INFO_IS_FETCHING";
 const SET_USER_ID = "SET_USER_ID";
+const SET_USER_INFO = "SET_USER_INFO";
 
 let initialState = {
+  user: null,
+  userInfoIsFetching: false,
+  userEmailIsVerified: false,
   userID: null,
   isLoggedIn: false,
 };
@@ -29,6 +33,14 @@ const authReducer = (state = initialState, action) => {
         userID: action.userID,
       }
     }
+    case SET_USER_INFO: {
+      return {
+        ...state,
+        user: action.user,
+        userID: action.user.uid,
+        userEmailIsVerified: action.user.emailVerified,
+      }
+    }
     default: {
       return {
         ...state
@@ -39,30 +51,31 @@ const authReducer = (state = initialState, action) => {
 
 export const setUserID = userID => ({type: SET_USER_ID, userID});
 export const toggleLoggedIn = isLoggedIn => ({type: TOGGLE_LOGGED_IN, isLoggedIn});
+export const setUser = user => ({type: SET_USER_INFO, user});
 export const logOut = () => {
   return dispatch => {
     firebaseApp.auth().signOut().then(function () {
       dispatch(toggleLoggedIn(false));
       dispatch(setNotes({}));
-    }).catch(function (error) {
+    }).catch(error => {
+      alert(error.message);
     });
   };
 };
 export const toggleInfoIsFetching = isFetching => ({type: TOGGLE_USER_INFO_IS_FETCHING, isFetching});
 export const trySignInWithThirdParty = loginMethod => dispatch => {
-  toggleInfoIsFetching(true);
+  dispatch(toggleInfoIsFetching(true));
   if (loginMethod === "GOOGLE") {
     authWithGoogle()
-      .then(function (result) {
-        let token = result.credential.accessToken;
-        dispatch(setUserID(token));
-        dispatch(toggleLoggedIn(true))
+      .then(result => {
+        dispatch(setUser(result.user));
+        dispatch(toggleLoggedIn(true));
       })
       .catch(function (error) {
         alert("error");
       })
       .finally(() => {
-        toggleInfoIsFetching(false);
+        dispatch(toggleInfoIsFetching(false));
       });
   }
 }
@@ -70,18 +83,12 @@ export const trySignUpWithEmail = (email, password) => dispatch => {
   dispatch(toggleInfoIsFetching(true));
   signUpWithEmailAndPassword(email, password)
     .then(result => {
-      let token = result.user.uid;
-      // The signed-in user info.
-      //var user = result.user;
-      if (result.user.emailVerified) {
-        dispatch(setUserID(token));
-        dispatch(toggleLoggedIn(true))
-      } else {
-        alert("User has not verified the email yet.")
-      }
+      result.user.sendEmailVerification().then(() => {
+        alert("Check your email to verify the account");
+      });
     })
     .catch(error => {
-      alert("error");
+      alert(error.message);
     })
     .finally(() => {
       dispatch(toggleInfoIsFetching(false));
@@ -90,16 +97,11 @@ export const trySignUpWithEmail = (email, password) => dispatch => {
 export const trySignInWithEmail = (email, password) => dispatch => {
   dispatch(toggleInfoIsFetching(true));
   authWithEmailAndPassword(email, password)
-    .then(function (result) {
-      let token = result.user.uid;
-      // The signed-in user info.
-      //var user = result.user;
-      dispatch(setUserID(token));
+    .then(result => {
+      dispatch(setUser(result.user));
       dispatch(toggleLoggedIn(true));
-      dispatch(toggleInfoIsFetching(false));
     })
-    .catch(function (error) {
-      dispatch(toggleInfoIsFetching(false));
+    .catch(error => {
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
@@ -109,23 +111,20 @@ export const trySignInWithEmail = (email, password) => dispatch => {
         alert(errorMessage);
         console.log(errorMessage);
       }
-      console.log(error);
+    })
+    .finally(() => {
+      dispatch(toggleInfoIsFetching(false));
     });
 }
 export const getNotes = () => (dispatch, getState) => {
   dispatch(toggleInfoIsFetching(true));
-  database.ref(`/users/${getState().auth.userID}`).once('value').then((snapshot) => {
-    let notes = snapshot.val();
-    debugger;
-    if (notes === null) {
-      dispatch(createNote());
-      notes = getState().editor.notes;
-      database.ref(`/users/${getState().auth.userID}`).set(notes).then(() => {
-        dispatch(toggleInfoIsFetching(false));
-      });
-    }
-    dispatch(setNotes(notes));
-    dispatch(toggleInfoIsFetching(false));
-  });
+  database.ref(`/users/${getState().auth.userID}`).once('value')
+    .then((snapshot) => {
+      let notes = snapshot.val() ?? {}; // if snapshot.val() is null then notes is an empty object
+      dispatch(setNotes(notes));
+    })
+    .finally(() => {
+      dispatch(toggleInfoIsFetching(false));
+    });
 }
 export default authReducer;

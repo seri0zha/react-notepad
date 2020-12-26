@@ -36,6 +36,9 @@ const Editor = (props) => {
       <textarea
         {...textConfig}
         onChange={onTextChange}/>
+      <button onClick={props.syncNotes}>
+        Save
+      </button>
     </div>
   ) : (
     <Redirect to="/" />

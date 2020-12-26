@@ -5,14 +5,14 @@ import {Route, Switch} from "react-router";
 import AuthFormContainer from "./Components/LoginForm/AuthFormContainer";
 import {connect} from "react-redux";
 import firebaseApp from "./fire";
-import {setUserID, toggleLoggedIn} from "./redux/authReducer";
+import {setUser, toggleLoggedIn} from "./redux/authReducer";
 
 const App = (props) => {
   useEffect(() => {
     firebaseApp.auth().onAuthStateChanged((user) => {
       if (user) {
         props.toggleLoggedIn(true);
-        props.setUserID(user.uid);
+        props.setUser(user);
         console.log("logged in");
       } else {
         props.toggleLoggedIn(false);
@@ -37,7 +37,7 @@ const App = (props) => {
 
 let actionCreators = {
   toggleLoggedIn,
-  setUserID,
+  setUser,
 }
 
 export default connect(null, actionCreators)(App);

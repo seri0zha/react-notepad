@@ -1,10 +1,11 @@
 import Editor from "./Editor";
 import {connect} from "react-redux";
-import {editText, editTitle} from "../../redux/editorReducer";
+import {editText, editTitle, syncNotes} from "../../redux/editorReducer";
 
 let actionCreators = {
   editText,
   editTitle,
+  syncNotes,
 };
 
 let noteExists = (notesList, id) => {

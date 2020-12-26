@@ -8,11 +8,17 @@ const NotesList = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const createNote = () => {
+    if (props.user.emailVerified)
+      props.createNote();
+    else alert("You must verify your email!");
+  }
+
   const noteIDs = Object.keys(props.notesList);
-  const notesElements = noteIDs.map(el => <Note key={el} id={el} noteProps={props.notesList[el]}/>);
+  const notesElements = noteIDs.map(el => <Note deleteNote={props.deleteNote} key={el} id={el} noteProps={props.notesList[el]}/>);
   return (
     <div className={styles.notesList}>
-      <button onClick={props.createNote} className={styles["addNote-button"]}>
+      <button onClick={createNote} className={styles["addNote-button"]}>
         +
       </button>
       {notesElements}
