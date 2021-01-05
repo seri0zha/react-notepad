@@ -1,45 +1,26 @@
 .loginForm-wrapper {
     width: 100%;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 50px;
 }
 
 .loginForm {
-    border-radius: 5px;
-    color: white;
-    margin: 200px auto;
-    background-color: #4c7ed8;
-    width: 500px;
-    height: 500px;
-    text-align: center;
-    padding-top: 20px;
-
-    -webkit-box-shadow: 0px 10px 35px -8px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 10px 35px -8px rgba(0,0,0,0.75);
-    box-shadow: 0px 10px 35px -8px rgba(0,0,0,0.75);
-}
-
-.input-wrapper {
-    margin: 0 10px 20px 10px;
-}
-
-.input-wrapper input {
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-.input-wrapper input:focus {
-    outline: none;
-}
-
-.input-field {
-    width: calc(100% - 40px);
-}
-
-.loginButton {
-    all: unset;
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+    color: black;
+    margin: 0 auto 20px auto;
+    background-color: white;
+    width: 400px;
+    height: auto;
     padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    background-color: #00c0c4;
+    text-align: center;
+
+    -webkit-box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+}
+
+.input-element__wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

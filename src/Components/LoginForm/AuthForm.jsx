@@ -1,6 +1,10 @@
 import styles from "./AuthForm.module.css";
 import React, {useState} from "react";
 import {Redirect} from "react-router";
+import InputField from "./InputField/InputField";
+import Button from "./Button/Button";
+import AuthButtonGroup from "./ButtonGroup/AuthButtonGroup";
+
 
 const AuthForm = (props) => {
   const [email, setEmail] = useState("");
@@ -40,35 +44,51 @@ const AuthForm = (props) => {
   return !props.isLoggedIn ?
     <div className={styles["loginForm-wrapper"]}>
       <div className={styles["loginForm"]}>
+        <div className={styles["input-element__wrapper"]}>
+          <AuthButtonGroup userIsRegistered={userIsRegistered}
+                           setUserIsRegistered={setUserIsRegistered}/>
+        </div>
         <form onSubmit={(e) => handleSubmit(e)}>
-          <div className={styles["input-wrapper"]}>
-            <input className={styles["input-field"]}
-                   placeholder="Email"
-                   onChange={handleEmailChange}
-                   value={email}/>
+          <div className={styles["input-element__wrapper"]}>
+            <InputField onChange={handleEmailChange}
+                        value={email}
+                        label='Email'
+                        id='email-field'/>
           </div>
-          <div className={styles["input-wrapper"]}>
-            <input className={styles["input-field"]}
-                   placeholder="Password"
-                   type="password"
-                   onChange={handlePasswordChange}
-                   value={password}/>
+          <div className={styles["input-element__wrapper"]}>
+            <InputField onChange={handlePasswordChange}
+                        value={password}
+                        label='Password'
+                        type='password'
+                        id='password-field'/>
           </div>
-          {!userIsRegistered && <div className={styles["input-wrapper"]}>
-            <input className={styles["input-field"]}
-                   placeholder="Confirm password"
-                   type="password"
-                   onChange={handleConfirmPasswordChange}
-                   value={confirmPassword}/>
+          {!userIsRegistered && <div className={styles["input-element__wrapper"]}>
+            <InputField onChange={handleConfirmPasswordChange}
+                        value={confirmPassword}
+                        label='Confirm password'
+                        type='password'
+                        id='confirm-password-field'/>
           </div>}
-          <input type="submit" value={userIsRegistered ? "Login" : "Sign up"} className={styles.loginButton}/>
+          <div className={styles["input-element__wrapper"]}>
+            <Button onClick={() => {}} type='submit' variant='outlined'
+                    text={userIsRegistered ? "Log in" : "Sign up"}/>
+          </div>
         </form>
-        <button onClick={() => props.trySignInWithThirdParty("GOOGLE")} className={styles.formButton}>
-          Sign in with Google
-        </button>
-        <button onClick={() => setUserIsRegistered(prevState => !prevState)}>
-          {userIsRegistered ? "Sign up" : "Login"}
-        </button>
+        { userIsRegistered &&
+          <div>
+            Forgot password? Sorry, we can't help you.
+          </div>
+        }
+      </div>
+      <div className={styles["loginForm"]}>
+        <div className={styles["input-element__wrapper"]}>
+          <Button onClick={() => props.trySignInWithThirdParty("GOOGLE")} variant='outlined'
+                  text='Log in with Google'/>
+        </div>
+        <div className={styles["input-element__wrapper"]}>
+          <Button onClick={() => {}} variant='outlined'
+                  text='Log in with GitHub'/>
+        </div>
       </div>
     </div> :
     <Redirect to="/"/>;

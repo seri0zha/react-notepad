@@ -7,8 +7,9 @@ const Note = (props) => {
     <NavLink className={styles.link} to={"/note/" + props.id}>
       <div className={styles.note}>
         {props.noteProps.title}
-        <button onClick={() => props.deleteNote(props.id)}>
-          Delete note
+        <button onClick={() => props.deleteNote(props.id)}
+                className={styles["button-delete"]}>
+          X
         </button>
       </div>
     </NavLink>

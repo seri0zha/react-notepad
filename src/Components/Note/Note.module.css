@@ -1,18 +1,19 @@
 .note {
-    padding: 10px 0;
+    position: relative;
+    padding: 10px 10px 11px 10px;
+    border-radius: 10px;
     word-break: break-all;
     max-height: 400px;
-    background-image: linear-gradient(#4c7ed8, #4c7ed8), linear-gradient(white, white);
-    background-size: 0 2px, auto;
-    background-repeat: no-repeat;
-    background-position: center bottom;
+    background-color: white;
     transition: all .2s ease-out;
     font-size: 16px;
+    margin-top: 10px;
 }
 
 .note:hover {
-    background-color: #8dfac1;
+    background-color: #a6e4ff;
     background-size: 100% 2px, auto;
+    cursor: pointer;
 }
 
 .icon {
@@ -25,4 +26,22 @@
 .link{
     text-decoration: none;
     color: inherit;
+}
+
+.button-delete {
+    border: 0;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    position: absolute;
+    border-radius: 0 10px 10px 0;
+    left: calc(100% - 40px);
+    background-color: transparent;
+    bottom: 0;
+}
+
+.button-delete:hover {
+    background-color: red;
+    color: white;
+    cursor: pointer;
 }
